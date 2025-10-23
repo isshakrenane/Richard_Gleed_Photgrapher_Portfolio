@@ -223,4 +223,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+
+    // Lightbox functionality: intercept clicks on images in gallery and slider
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+      const lbImg = lightbox.querySelector('img');
+      const lbClose = lightbox.querySelector('.lightbox-close');
+
+      function openLightbox(src, alt) {
+        lbImg.src = src;
+        lbImg.alt = alt || '';
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        lbImg.src = '';
+        document.body.style.overflow = '';
+      }
+
+      // delegate clicks from slider and gallery
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        // check for images inside .slider-slide or .photo
+        if (t.closest('.slider-slide') || t.closest('.photo')) {
+          const img = t.tagName === 'IMG' ? t : t.querySelector('img');
+          if (img && img.src) {
+            e.preventDefault();
+            openLightbox(img.src, img.alt || '');
+          }
+        }
+      });
+
+      lbClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+    }
 });
