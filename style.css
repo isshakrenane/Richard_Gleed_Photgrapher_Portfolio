@@ -569,30 +569,46 @@ p {
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.85);
+  /* dark translucent overlay but the image sits inside a solid black pane */
+  background: rgba(0,0,0,0.92);
   z-index: 20000;
 }
 .lightbox[aria-hidden="false"] { display: flex; }
 .lightbox-content {
+  /* solid black pane that holds the image so rounded corners always show black */
+  background: #000;
+  padding: 12px;
+  border-radius: 8px;
   max-width: 95vw;
   max-height: 95vh;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
 }
 .lightbox-content img {
-  width: 100%;
+  /* keep the image contained inside the black pane and fully visible */
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  width: auto;
   height: auto;
   display: block;
+  object-fit: contain;
   border-radius: 6px;
+  background: #000;
 }
 .lightbox-close {
+  /* place the close button inside the black pane for consistent hit area */
   position: absolute;
-  top: -38px;
-  right: 0;
+  top: 8px;
+  right: 8px;
   background: transparent;
   color: #fff;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   cursor: pointer;
+  z-index: 10;
 }
 
 @media (max-width: 700px) {
