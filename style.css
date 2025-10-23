@@ -562,6 +562,39 @@ p {
   transform: scale(1.15);
 }
 
+/* Lightbox styles */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 20000;
+}
+.lightbox[aria-hidden="false"] { display: flex; }
+.lightbox-content {
+  max-width: 95vw;
+  max-height: 95vh;
+  position: relative;
+}
+.lightbox-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+.lightbox-close {
+  position: absolute;
+  top: -38px;
+  right: 0;
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
 @media (max-width: 700px) {
   .movement-slider .slider-container { height: 220px; }
   .movement-slider .slider-nav { padding: 8px 10px; font-size: 1.2rem; }
