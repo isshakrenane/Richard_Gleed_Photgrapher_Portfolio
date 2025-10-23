@@ -246,12 +246,25 @@ document.addEventListener('DOMContentLoaded', () => {
       // delegate clicks from slider and gallery
       document.addEventListener('click', (e) => {
         const t = e.target;
-        // check for images inside .slider-slide or .photo
+
+        // Case A: a gallery anchor wrapping a .photo div was clicked (background-image thumbnails)
+        const galleryLink = t.closest('a');
+        if (galleryLink && galleryLink.querySelector && galleryLink.querySelector('.photo')) {
+          const href = galleryLink.getAttribute('href');
+          if (href) {
+            e.preventDefault();
+            openLightbox(href, galleryLink.getAttribute('title') || '');
+            return;
+          }
+        }
+
+        // Case B: image element inside a slider-slide or direct <img> click
         if (t.closest('.slider-slide') || t.closest('.photo')) {
           const img = t.tagName === 'IMG' ? t : t.querySelector('img');
           if (img && img.src) {
             e.preventDefault();
             openLightbox(img.src, img.alt || '');
+            return;
           }
         }
       });
@@ -263,3 +276,4 @@ document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
     }
 });
+
